@@ -148,45 +148,24 @@ try:
     logging.info("17. Scanning again for 'Oui' or 'Ok' buttons.")
     scan_and_click(buttons)
 
-# Task 18: Open a new tab and navigate to AliExpress
-    logging.info("18. Opening AliExpress in a new tab.")
-    driver.execute_script("window.open('https://www.aliexpress.com/account/index.html', '_blank');")
+# Run the second part of the script after Task 17
+    logging.info("Starting to run the CMD script to open Firefox and navigate to AliExpress.")
+    open_cmd_and_run()
 
-    # Switch to the new tab
-    new_tab = driver.window_handles[-1]
-    driver.switch_to.window(new_tab)
-    logging.info("Switched to the AliExpress tab.")
-
-    # Wait for the email input field to be visible
-    logging.info("Waiting for the email input field on AliExpress.")
+    # Wait for the email input field on AliExpress to load
+    logging.info("Waiting for the email input field on AliExpress registration page.")
     email_input = WebDriverWait(driver, 10).until(
         EC.visibility_of_element_located((By.XPATH, "//input[@class='cosmos-input'][@type='text']"))
     )
 
-    # Enter the generated Outlook email and press Enter
+    # Enter the generated random email and press Enter
     logging.info(f"Entering the generated email: {random_email}")
     email_input.send_keys(random_email)
     email_input.send_keys(u'\ue007')  # Press Enter key
     logging.info("Submitted the email on AliExpress.")
 
-    # Wait for the password field to appear and enter the password
-    logging.info("Waiting for the password input field on AliExpress.")
-    password_input = WebDriverWait(driver, 10).until(
-        EC.visibility_of_element_located((By.XPATH, "//input[@class='cosmos-input'][@type='password']"))
-    )
-    logging.info("Entering the password.")
-    password_input.send_keys("Zidane")
-    time.sleep(1)
-    password_input.send_keys(u'\ue007')  # Press Enter key
-    logging.info("Submitted the password on AliExpress.")
-
-    # Send a notification for CAPTCHA
-    notification.notify(
-        title="Captcha AliExpress",
-        message="Please solve the CAPTCHA on the AliExpress browser tab.",
-        timeout=10,
-    )
-    logging.info("Notification sent for AliExpress CAPTCHA.")
+    # Optionally, you can add a short sleep to wait for the next field to appear
+    time.sleep(2)
 
     # Keeps the browser open until Enter is pressed
     input("Press Enter to close the browser...")
